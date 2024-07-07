@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="435b4dab-273a-4632-8fd5-12f42536852c" >
+		<http:listener-connection host="0.0.0.0" port="8083" />
+	</http:listener-config>
+	<flow name="xml-to-json-apiFlow" doc:id="fe5f9998-dbe4-4ec3-8229-58621cd8106c" >
+		<http:listener doc:name="Listener" doc:id="9f685584-d81e-4b9e-b489-20687a75e692" path="/xmltojson" config-ref="HTTP_Listener_config"/>
+		<ee:transform doc:name="XML TO JSON" doc:id="67182c3a-46fe-45fb-96a8-d1f6a87f51bd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a610d3d5-9667-44f6-aa01-71c17d3dfcfa" message="XML TO JSON CONVERTION COMPLITED"/>
+	</flow>
+</mule>
